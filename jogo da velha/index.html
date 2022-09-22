@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>EM PROGRESSO - Jogo da Velha</title>
+<style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(
+    90deg,
+    rgba(65, 185, 131, 1) 0%,
+    rgba(0, 212, 255, 1) 100%
+  );
+}
+
+.board {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(3, auto);
+}
+
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after,
+.board.x .cell:not(.x):not(.circle):hover::before {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Célula */
+.cell {
+  width: 100px;
+  height: 100px;
+  border: 2px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.cell.x,
+.cell.circle {
+  cursor: not-allowed;
+}
+
+.cell:nth-child(1),
+.cell:nth-child(2),
+.cell:nth-child(3) {
+  border-top: none;
+}
+
+.cell:nth-child(1),
+.cell:nth-child(4),
+.cell:nth-child(7) {
+  border-left: none;
+}
+
+.cell:nth-child(7),
+.cell:nth-child(8),
+.cell:nth-child(9) {
+  border-bottom: none;
+}
+
+.cell:nth-child(3),
+.cell:nth-child(6),
+.cell:nth-child(9) {
+  border-right: none;
+}
+
+/* X */
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.x .cell:not(.x):not(.circle):hover::before {
+  content: "";
+  height: calc(100px * 0.15);
+  width: calc(100px * 0.9);
+  background: white;
+  position: absolute;
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before {
+  transform: rotate(45deg);
+}
+
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+  transform: rotate(-45deg);
+}
+
+/* Circle */
+.cell.circle::before,
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+  content: "";
+  height: calc(100px * 0.9);
+  width: calc(100px * 0.9);
+  background: white;
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Mensagem de Vitória */
+.winning-message {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  flex-direction: column;
+}
+
+.winning-message-button {
+  font-size: 2.5rem;
+  background-color: rgba(65, 185, 131, 1);
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  margin-top: 16px;
+  color: white;
+}
+
+.winning-message-button:hover {
+  color: rgba(65, 185, 131, 1);
+  background-color: white;
+}
+
+.winning-message-text {
+  color: white;
+  font-size: 5rem;
+}
+
+.show-winning-message {
+  display: flex;
+} </style>
+  </head>
+  <body>
+    <div class="board" data-board>
+      <div class="cell" id="cell1" data-cell><div id="imagem"></div></div>
+      <div class="cell" id="cell2" data-cell><div id="imagem2"></div></div>
+      <div class="cell" id="cell3"data-cell></div>
+      <div class="cell" id="cell4" onmouseover="jogo.mostrarPrevia('cell4')" onmouseout="jogo.apagarPrevia('cell4')" data-cell></div>
+      <div class="cell" id="cell5" onmouseover="jogo.mostrarPrevia('cell5')" onmouseout="jogo.apagarPrevia('cell5')" data-cell></div>
+      <div class="cell" id="cell6" onmouseover="jogo.mostrarPrevia('cell6')" onmouseout="jogo.apagarPrevia('cell6')" data-cell></div>
+      <div class="cell" id="cell7" onmouseover="jogo.mostrarPrevia('cell7')" onmouseout="jogo.apagarPrevia('cell7')" data-cell></div>
+      <div class="cell" id="cell8" onmouseover="jogo.mostrarPrevia('cell8')" onmouseout="jogo.apagarPrevia('cell8')" data-cell></div>
+      <div class="cell" id="cell9" onmouseover="jogo.mostrarPrevia('cell9')" onmouseout="jogo.apagarPrevia('cell9')" data-cell></div>
+    </div>
+
+    <div class="winning-message" data-winning-message>
+      <p class="winning-message-text" data-winning-message-text>X Venceu!</p>
+      <button class="winning-message-button" data-restart-button>
+        Reiniciar!
+      </button>
+    </div>
+
+    <script type="text/javascript">
+
+        function removerPrevia(cellx, image1x) {
+            //var cellx = 'cell' + number
+           // cellx.innerHTML = ""
+            //document.getElementById('imagem').innerHTML = ""
+            //celll1img = 'image'
+            
+            //document.getElementById('cell1').appendChild(div)
+            image1x.src = ""
+            celll1img = 'image'
+            }
+        
+
+        celll1 = 'vida'
+        celll2 = 'vida'
+        celll3 = 'vida'
+
+        celll1img = 'image'
+        celll2img = 'image'
+       
+
+
+        // functions mostrar previa
+        function mostrarPrevia(cellx, quemJoga) {
+            //var cellx = 'cell' + number
+            if (celll1 == 'bola') {} else {
+                if (quemJoga == 'x') {
+                var div = document.getElementById("imagem");
+                var image1x = document.createElement("img");
+                image1x.src = 'https://img.freepik.com/fotos-gratis/imagem-aproximada-em-tons-de-cinza-de-uma-aguia-careca-americana-em-um-fundo-escuro_181624-31795.jpg?w=2000'
+                image1x.width = 80
+                div.appendChild(image1x);
+                //document.getElementById('cell1').appendChild(div)
+
+                celll1img = 'noimage'
+                cell1.addEventListener('mouseout', function(event) {removerPrevia(cell1, image1x)})
+                cell1.addEventListener('click', function(event) {removerPrevia(cell1, image1x)})
+                
+                } 
+
+                else {var div = document.getElementById("imagem");
+                var image1o = document.createElement("img");
+                image1o.src = 'https://super.abril.com.br/wp-content/uploads/2018/07/566eded10e2163522f00d5b8thinkstockphotos-476944921.jpeg'
+                image1o.width = 80
+                div.appendChild(image1o);
+                //document.getElementById('cell1').appendChild(div)
+
+                celll1img = 'noimage'
+                cell1.addEventListener('mouseout', function(event) {removerPrevia(cell1, image1o)})
+                cell1.addEventListener('click', function(event) {removerPrevia(cell1, image1o)}) 
+                }   
+             }    
+    }
+        function mostrarPreviaCell2(cellx, quemJoga) {
+            if (celll2 == 'bola') {} else {
+                if (quemJoga == 'x') {
+                var div = document.getElementById("imagem2");
+                var image2x = document.createElement("img2");
+                image2x.src = 'https://img.freepik.com/fotos-gratis/imagem-aproximada-em-tons-de-cinza-de-uma-aguia-careca-americana-em-um-fundo-escuro_181624-31795.jpg?w=2000'
+                image2x.width = 80
+                div.appendChild(image2x);
+                //document.getElementById('cell1').appendChild(div)
+
+                celll2img = 'noimage'
+                cell2.addEventListener('mouseout', function(event) {removerPrevia(cell2, image2x)})
+                cell2.addEventListener('click', function(event) {removerPrevia(cell2, image2x)})
+                
+                } 
+
+                else {var div = document.getElementById("imagem2");
+                var image2o = document.createElement("img2");
+                image2o.src = 'https://super.abril.com.br/wp-content/uploads/2018/07/566eded10e2163522f00d5b8thinkstockphotos-476944921.jpeg'
+                image2o.width = 80
+                div.appendChild(image2o);
+                //document.getElementById('cell1').appendChild(div)
+
+                celll2img = 'noimage'
+                cell2.addEventListener('mouseout', function(event) {removerPrevia(cell2, image2o)})
+                cell3.addEventListener('click', function(event) {removerPrevia(cell2, image2o)}) 
+                }   
+        }
+    }
+/*
+        function mostrarPreviaCell3(cellx) {
+            if (celll3 == 'bola') {} else {
+                cell3.innerHTML = "caca"
+                 cell3.addEventListener('mouseout', function(event) {removerPrevia(cell3)}) 
+            }
+        }
+*/
+
+        function clique(cellx, quemJoga) {
+            if (quemJoga == 'x') {
+                var div = document.getElementById("imagem");
+                var imagex = document.createElement("img");
+                imagex.src = 'https://super.abril.com.br/wp-content/uploads/2018/07/566eded10e2163522f00d5b8thinkstockphotos-476944921.jpeg'
+                imagex.width = 60
+                div.appendChild(imagex);
+                //document.getElementById('cell1').appendChild(div)
+
+                celll1img = 'noimage'
+                cell1.addEventListener('mouseout', function(event) {mostrarPreviaClique(cell1, image1x)})     } else {}
+            }
+
+        function cliquecell2(cellx, quemJoga) {
+            if (quemJoga == 'x') {
+                var div = document.getElementById("imagem");
+                var imagex = document.createElement("img");
+                imagex.src = 'https://super.abril.com.br/wp-content/uploads/2018/07/566eded10e2163522f00d5b8thinkstockphotos-476944921.jpeg'
+                imagex.width = 60
+                div.appendChild(imagex);
+                //document.getElementById('cell1').appendChild(div)
+
+                celll2img = 'noimage'
+                cell2.addEventListener('mouseout', function(event) {mostrarPreviaClique(cell2, imagex)})     } else {}
+            }
+
+
+        function mostrarPreviaClique(cellx, imagem) {
+            imagem.src = 'https://exhio.servegame.com/images/monstros/minhocas.jpg'
+            imagem.width = 70
+
+           switch(cellx) {
+            case cell1: 
+                    celll1 = 'bola'
+            break;
+            case cell2: 
+                    celll2 = 'bola'
+            break;
+            case cell3: 
+                    celll3 = 'bola'
+            break;
+           
+            default:
+                    console.log('erro')
+            }
+
+        }
+        
+        var cell1 = document.getElementById('cell1')
+        var cell2 = document.getElementById('cell2')
+        var cell3 = document.getElementById('cell3')
+
+        
+        cell1.addEventListener('mouseover', function(event) {mostrarPrevia(cell1, 'x')})
+        //cell1.addEventListener('mouseout', function(event) {removerPrevia(cell1)})
+        cell1.addEventListener('click', function(event) {clique(cell1, 'x')})
+
+        cell2.addEventListener('mouseover', function(event) {mostrarPreviaCell2(cell2, 'x')})
+        //cell2.addEventListener('mouseout', function(event) {removerPrevia(cell2)})
+        cell2.addEventListener('click', function(event) {cliquecell2(cell2, 'x')})
+
+        cell3.addEventListener('mouseover', function(event) {mostrarPreviaCell3(cell3)})
+        //cell2.addEventListener('mouseout', function(event) {removerPrevia(cell2)})
+        cell3.addEventListener('click', function(event) {clique(cell3)})
+
+    
+        
+
+    </script>
+  </body>
+</html>
+
+
+
