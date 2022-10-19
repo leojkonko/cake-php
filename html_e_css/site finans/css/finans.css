@@ -1,0 +1,90 @@
+
+
+body	{font-size: 18px;}
+.container {background: #FFBF00;
+			margin: -8px;}
+a {text-decoration: none;
+	color: white;}
+
+/* 							menu					*/
+
+.menu {	height: 80px;}
+
+.logo {width: 203px;
+		height: 45px;
+		margin: 15px;
+		border: 1px solid red;
+		float: left;}
+
+.menu-itens .item1 {float: right;
+				padding: 15px;
+				list-style: none;
+				border: 1px solid red;
+				margin: 15px 40px;
+				font-size: 20px;
+				color: ;}
+
+.menu-itens .item2 a {float: right;
+				padding: 15px;
+				list-style: none;
+				border: 1px solid red;
+				margin: 15px;
+				text-decoration: none;
+				color: grey;}
+.menu-itens .item2 a:hover {}
+
+.item2 {border: 1px solid red;
+		float: right;
+		padding: -20px;}
+
+
+
+/* 					fim menu 						*/
+
+/*início conteudo*/
+
+.conteudo {font-size: 45px;
+			color: white;
+			border: 1px solid blue;
+			margin-left: 150px;
+			margin-top: 50px;}
+			
+.conteudo h3 {border: 1px solid red;}
+
+.conteudo p {font-size: 18px;
+			 border: 1px solid red;
+			 width: 400px;
+			 margin-top: -40px;}
+
+.cadastro  {margin-left: 150px;
+			margin-top: 10px;
+			color: white;
+			height: 34px;
+			width: 285px;
+			border-radius: 4px;
+			}
+
+.btn {width: 100px;
+	  height: 40px;
+	  background-color: #0066b8;
+	  border: none;
+	  border-radius: 4px;
+	  color: white;}
+.btn:hover {font-size: 14px;}
+
+
+.android {margin-left: 150px;
+		  color: white;
+		  margin-top: 20px;}
+
+
+
+i {margin: 10px;
+	font-size: 40px;}
+i:hover {color: #0066b8;
+		 font-size: 50px;}
+
+
+.mulher	{float: right;
+		 margin-top: -430px;
+		 hei}

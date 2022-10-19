@@ -1,0 +1,150 @@
+/*limpar formatações paddrões*/
+*{ margin: 0;
+	padding: 0; }
+/*font size 1 em*/
+body	{font-size: 16px;
+			font-family: Helvetica,sans-serif;
+			background: #e6e6e6;}
+
+/*    LAYOUT       */
+
+#cabeçalho { background-color: #f7b600; 
+			padding: 15px;
+			text-align: center;}
+
+
+
+#logo {padding: 20px;
+		}
+
+#menu {padding: 20px;}
+
+.branco {color: white;}
+
+
+
+#cabeçalho a:link{color: white;
+		text-decoration: none;
+		padding: 15px;}
+
+#cabeçalho a:visited {color: white;}
+ 
+#cabeçalho a:hover {color: #f7b600;
+		background-color: white;}
+
+		h1 {color: #4e4e4e;
+		font-size: 42px;}
+
+
+
+
+
+/* fim menu */
+
+/*
+
+
+
+.corpo { border: solid red;
+		height: 500px;
+		width: 750px;
+		margin-left: 100px;
+		margin-top: 60px;
+		margin-bottom: 100px; 
+		background-color: white;
+		float: left;}
+
+.título-corpo { font-size: 17px;
+				padding-left: 20px; 
+				padding-top: 15px;
+				font-family: Helvetica,sans-serif;
+				}
+
+h2	{ color: #f7b600;}
+p 	{ font-size: 12px; }
+
+
+.imagem1 {position: relative;
+			margin-left: 500px;}
+
+
+.area-latera { border: solid red;
+				width: 200px; 
+				height: 300px;
+				padding: 10px;
+				position: relative;
+				left: 800px;
+				top: -60px;
+				background-color: white;}
+
+h4 { color:#6E6E6E;
+ 	background-color: #D8D8D8;
+ 	padding: 8px;
+ 	text-align: center;}
+
+ .lateral2 {border: solid red;
+				width: 200px; 
+				height: 300px;
+				padding: 10px;
+				position: relative;
+				left: 903px;
+				top: 400px;
+				background-color: white;}
+
+*/
+
+#area-principal {width: 1100px;
+					margin: 0 auto;}
+
+
+#postagens, #lateral {}
+
+#postagens {background: white;
+			width: 640px;
+			float: left;
+			padding: 20px;
+			margin-top: 20px;}
+
+
+#lateral {background: white;
+			
+			padding: 15px;
+			width: 280px;
+			float: right;
+			margin-top: 20px;
+			margin-right: 180px;
+			border: solid red;}
+
+#rodapé	{text-align: center;
+		background: #CCC;
+		clear: both;
+		padding: 15px;}
+
+
+.postagem {color: #f7b600;
+			padding: 5px;}
+
+
+.postagem1 {color: grey;}
+
+
+
+a {color: red;
+		text-decoration: none;
+		padding: 15px;}
+
+
+					
+	
+
+
+
+
+
+
+
+
+
+
+
+
